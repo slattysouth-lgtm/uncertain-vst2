@@ -1,0 +1,33 @@
+================================================================
+  COMMENT EXECUTER  ->  build.bat
+================================================================
+
+Sous Windows, un fichier .bat se lance en DOUBLE-CLIQUANT dessus.
+Il n'y a rien a "rendre executable" : c'est deja le cas.
+
+ETAPES :
+  1. Garde TOUT le dossier ensemble (ne sors pas build.bat seul,
+     il a besoin des autres fichiers a cote).
+  2. Double-clic sur build.bat
+  3. Windows demande les droits administrateur -> Accepte.
+     Le script telecharge JUCE, compile, installe le VST3, et
+     genere le setup.exe partageable.
+
+SI WINDOWS BLOQUE LE FICHIER (SmartScreen / "Windows a protege...") :
+  - clic droit sur build.bat > Proprietes > coche "Debloquer" > OK
+  - ou, a l'execution : "Informations complementaires" >
+    "Executer quand meme".
+
+PREREQUIS (a installer une seule fois, gratuit) :
+  - Visual Studio 2022  (charge "Developpement Desktop en C++")
+  - Git
+  - Inno Setup 6.3+     (seulement pour generer le setup.exe)
+
+RESULTAT :
+  - Plugin VST3 installe dans C:\Program Files\Common Files\VST3
+  - Installeur partageable : Installer\*-Setup.exe
+
+  >>> Le .vst3 et le setup.exe N'EXISTENT QU'APRES ce build.
+      Tant qu'on n'a pas lance build.bat sur une machine Windows,
+      le dossier ne contient que le CODE SOURCE, pas un plugin pret.
+================================================================

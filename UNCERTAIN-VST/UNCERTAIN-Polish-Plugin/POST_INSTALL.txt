@@ -1,0 +1,15 @@
+UNCERTAIN Polish est installe.
+
+DERNIERE ETAPE (une fois, comme pour tout plugin) : scan des plugins.
+
+FL STUDIO : OPTIONS > Manage plugins > "Find installed plugins",
+            puis cherche "UNCERTAIN".
+MIXCRAFT  : Preferences > Plug-Ins > verifie C:\Program Files\Common Files\VST3
+            puis "Rescan".
+
+CHAINE DE MASTERING (ordre important) :
+  1. UNCERTAIN Polish   (nettoie + colle)
+  2. BLOODMONEY Master  (monte le volume)
+Pose les deux sur le BUS MASTER, dans cet ordre.
+
+Le potard POLISH : 1 = leger, 100 = correction et compression maximales.

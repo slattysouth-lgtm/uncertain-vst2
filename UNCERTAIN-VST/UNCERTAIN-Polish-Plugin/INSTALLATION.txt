@@ -1,0 +1,46 @@
+================================================================
+  UNCERTAIN // POLISH  -  INSTRUCTIONS
+================================================================
+
+Pre-master : retire les resonances et les pics desagreables,
+puis soude le son avec une compression parallele (glue).
+UN SEUL potard, de 1 a 100. A placer AVANT BLOODMONEY Master.
+
+----------------------------------------------------------------
+  TU AS RECU "UNCERTAIN-Polish-Setup.exe" (utiliser le plugin)
+----------------------------------------------------------------
+1. Double-clic. Si Windows affiche "editeur inconnu" :
+   "Informations complementaires" > "Executer quand meme".
+2. Suivant > Installer > Terminer (accepte l'invite admin).
+3. Fais scanner les plugins dans ton DAW :
+   FL STUDIO : OPTIONS > Manage plugins > "Find installed plugins"
+   MIXCRAFT  : Preferences > Plug-Ins > "Rescan"
+4. CHAINE sur le bus master, dans l'ordre :
+     1) UNCERTAIN Polish    2) BLOODMONEY Master
+
+----------------------------------------------------------------
+  TU AS RECU LE DOSSIER PROJET (fabriquer le setup.exe)
+----------------------------------------------------------------
+A installer une fois (gratuit) :
+  - Visual Studio 2022 ("Developpement Desktop en C++")
+  - Git
+  - Inno Setup 6.3+  (https://jrsoftware.org/isdl.php)
+
+Puis : double-clic sur build.bat.
+Recupere : Installer\UNCERTAIN-Polish-Setup.exe  (a partager)
+
+================================================================
+  COMMENT CA MARCHE
+================================================================
+- Suppression de resonances : analyse spectrale FFT. On estime
+  l'enveloppe lisse du spectre et on rabote uniquement les bins
+  qui depassent (resonances, pics agressifs). Le reste est intact.
+- Glue : compression parallele (NY) melangee sous le son sec.
+- Le potard 1->100 augmente simultanement la correction et la
+  compression.
+
+Reglage type rap : commence vers 35-50, monte si le son est
+encore dur ou desordonne. Trop haut = son ecrase/sans vie.
+
+UNCERTAIN // Polish v1.0
+================================================================

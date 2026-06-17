@@ -1,0 +1,20 @@
+BLOODMONEY Master est installe.
+
+DERNIERE ETAPE (une seule fois, comme pour tout plugin) :
+ton logiciel doit scanner les nouveaux plugins.
+
+--- FL STUDIO ---
+1. Ouvre FL Studio.
+2. Menu OPTIONS > Manage plugins.
+3. Clique "Find installed plugins" (Find more plugins).
+4. Cherche "BLOODMONEY" dans la liste, coche-le en favori.
+
+--- MIXCRAFT ---
+1. Ouvre Mixcraft.
+2. Preferences > Plug-Ins.
+3. Verifie que le dossier C:\Program Files\Common Files\VST3 est present.
+4. Clique "Rescan". BLOODMONEY apparait dans tes effets VST.
+
+Pose le plugin sur le BUS MASTER, en dernier de la chaine.
+
+C'est tout. Bon son.

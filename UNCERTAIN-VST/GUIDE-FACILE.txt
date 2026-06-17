@@ -1,0 +1,63 @@
+================================================================
+  FABRIQUER L'INSTALLEUR SANS RIEN INSTALLER (via GitHub)
+  Aucun logiciel a installer. Juste un navigateur. ~10-15 min.
+================================================================
+
+GitHub va compiler le plugin GRATUITEMENT sur ses serveurs, et te
+donner le fichier d'installation fini a telecharger.
+
+----------------------------------------------------------------
+ETAPE 1 - Creer un compte (gratuit)
+----------------------------------------------------------------
+1. Va sur  https://github.com  -> "Sign up"
+2. Cree ton compte (email + mot de passe). C'est gratuit.
+
+----------------------------------------------------------------
+ETAPE 2 - Creer un "repository" (un dossier en ligne)
+----------------------------------------------------------------
+1. En haut a droite, clique le "+" -> "New repository"
+2. Repository name : uncertain-vst
+3. Laisse "Public" coche.
+4. Clique "Create repository".
+
+----------------------------------------------------------------
+ETAPE 3 - Envoyer les fichiers
+----------------------------------------------------------------
+1. Sur la page du repo, clique le lien :
+   "uploading an existing file"
+   (ou : bouton "Add file" -> "Upload files")
+2. Ouvre le dossier UNCERTAIN-VST sur ton PC.
+3. SELECTIONNE TOUT CE QUI EST DEDANS (les 3 dossiers de plugins,
+   le fichier installer-all.iss, le dossier .github, etc.)
+   et GLISSE-LE dans la page GitHub.
+   >>> Important : glisse le CONTENU de UNCERTAIN-VST,
+       pas le dossier UNCERTAIN-VST lui-meme.
+4. En bas, clique "Commit changes".
+
+----------------------------------------------------------------
+ETAPE 4 - GitHub compile tout seul
+----------------------------------------------------------------
+1. Clique l'onglet "Actions" en haut.
+2. Tu verras une tache "Build UNCERTAIN VST" en cours (point jaune).
+3. Attends qu'elle passe au vert (coche verte) : ~10-15 min.
+   (Si jamais tu vois une croix rouge : clique dessus, copie le
+    texte de l'erreur, et envoie-le moi.)
+
+----------------------------------------------------------------
+ETAPE 5 - Telecharger l'installeur fini
+----------------------------------------------------------------
+1. Clique sur la tache verte terminee.
+2. En bas, section "Artifacts" : clique
+   "UNCERTAIN-VST-Suite-Setup" -> ca telecharge un .zip.
+3. Ouvre ce .zip -> tu as :  UNCERTAIN-VST-Suite-Setup.exe
+
+CE FICHIER EST TON INSTALLEUR. Double-clic = les 3 plugins
+s'installent. Tu peux l'envoyer a n'importe qui : pour eux,
+double-clic et c'est fini (aucune connaissance requise).
+
+----------------------------------------------------------------
+RELANCER PLUS TARD
+----------------------------------------------------------------
+Si tu modifies le code, re-uploade les fichiers : GitHub
+recompile tout seul et te redonne un nouvel installeur.
+================================================================

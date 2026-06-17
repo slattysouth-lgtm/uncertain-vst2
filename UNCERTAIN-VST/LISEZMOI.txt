@@ -1,0 +1,22 @@
+================================================================
+  UNCERTAIN VST - LIRE EN PREMIER
+================================================================
+3 plugins (code source) :
+  - UNCERTAIN Polish    : pre-master, retire resonances + colle
+  - UNCERTAIN Spatial   : stereo + dynamique par zones (graves->mono, aigus->larges)
+  - BLOODMONEY Master   : clipper 8x + volume (vise -10/-11 LUFS)
+
+OBJECTIF : un seul exe qui installe les trois en un clic.
+
+>>> UNE FOIS, SUR UN PC WINDOWS :
+  1. Installe (gratuit) : Visual Studio 2022 ("Desktop C++"), Inno Setup 6.3+.
+     (ou lance AUTO-INSTALL-ET-BUILD.bat qui installe les outils via winget)
+  2. Double-clic sur BUILD-ALL.bat
+  3. Resultat : Installer\UNCERTAIN-VST-Suite-Setup.exe  (a partager)
+
+CHAINE sur le bus master, dans l'ordre :
+  1) UNCERTAIN Polish   2) UNCERTAIN Spatial   3) BLOODMONEY Master
+
+POURQUOI UN BUILD : un .exe Windows doit etre compile sur Windows.
+Cette etape ne se fait qu'une fois ; ensuite l'exe se partage a l'infini.
+================================================================

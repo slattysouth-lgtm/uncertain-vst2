@@ -1,0 +1,96 @@
+================================================================
+  BLOODMONEY // MASTER ENGINE  -  INSTRUCTIONS
+================================================================
+
+Plugin de mastering VST3 pour Windows (Mixcraft, FL Studio, etc.).
+Chaine : EQ 4 bandes > compression > saturation 4x > limiteur
+look-ahead brick-wall. Du volume, sans gresillement.
+
+Il y a DEUX cas selon qui tu es. Va directement a ta section.
+
+
+================================================================
+  CAS A - TU AS RECU LE FICHIER "BLOODMONEY-Master-Setup.exe"
+  (tu veux juste utiliser le plugin)
+================================================================
+
+1. Double-clique sur BLOODMONEY-Master-Setup.exe.
+
+   -> Si Windows affiche "Windows a protege votre ordinateur"
+      (editeur inconnu) : clique "Informations complementaires"
+      puis "Executer quand meme". C'est normal pour un installeur
+      gratuit non signe, ce n'est pas un virus.
+
+2. Suivant > Installer > Terminer. (Une demande administrateur
+   peut apparaitre : accepte, c'est pour poser le plugin au bon
+   endroit.)
+
+3. DERNIERE ETAPE - faire scanner le plugin par ton logiciel
+   (a faire une seule fois, comme pour TOUS les plugins) :
+
+   FL STUDIO
+     - Menu OPTIONS > Manage plugins
+     - Clique "Find installed plugins"
+     - Cherche "BLOODMONEY", coche-le en favori
+
+   MIXCRAFT
+     - Preferences > Plug-Ins
+     - Verifie que C:\Program Files\Common Files\VST3 est liste
+     - Clique "Rescan"
+
+4. Pose BLOODMONEY Master sur le BUS MASTER, en DERNIER de la
+   chaine d'effets. Choisis un preset (PROPRE / STREAM /
+   PUISSANCE) et ajuste.
+
+C'est tout. Bon son.
+
+
+================================================================
+  CAS B - TU AS RECU LE DOSSIER DU PROJET (le code source)
+  (tu veux fabriquer toi-meme le setup.exe a partager)
+================================================================
+
+A FAIRE UNE SEULE FOIS - installe ces outils gratuits :
+  - Visual Studio 2022 Community
+    (coche la charge "Developpement Desktop en C++")
+    https://visualstudio.microsoft.com/fr/downloads/
+  - Git :         https://git-scm.com
+  - Inno Setup 6.3+ (pour le setup.exe) :
+    https://jrsoftware.org/isdl.php
+
+ENSUITE :
+  1. Garde la structure du dossier intacte :
+       CMakeLists.txt
+       build.bat
+       installer.iss
+       POST_INSTALL.txt
+       Source\  (PluginProcessor.cpp/.h, PluginEditor.cpp/.h,
+                 LookaheadLimiter.h)
+
+  2. Double-clique sur build.bat.
+     Il fait tout : droits admin, telechargement de JUCE,
+     compilation, installation du VST3, et generation du
+     setup.exe. Le 1er build prend quelques minutes (JUCE).
+
+  3. Recupere le fichier a partager ici :
+       Installer\BLOODMONEY-Master-Setup.exe
+
+  4. Ce setup.exe est l'objet final : envoie-le a qui tu veux.
+     Eux suivront le "CAS A" ci-dessus, sans rien installer
+     d'autre.
+
+Si build.bat s'arrete sur une erreur : lis le message dans la
+fenetre noire. C'est presque toujours un outil manquant
+(Visual Studio "Desktop C++" non installe) ou pas de connexion
+internet au 1er lancement.
+
+
+================================================================
+  NOTE
+================================================================
+Spotify / Apple Music normalisent le volume a -14 LUFS. Un
+master tres fort sera baisse au playback : vise un son DENSE et
+PROPRE, pas le chiffre le plus haut possible.
+
+BLOODMONEY // Master Engine v1.0
+================================================================
