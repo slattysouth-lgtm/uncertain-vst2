@@ -1,0 +1,44 @@
+name: Build UNCERTAIN VST Suite
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Inno Setup
+        uses: ether0x/setup-innosetup@v1
+        with:
+          version: '6.2.0'
+
+      - name: Install Git
+        run: choco install git -y
+
+      - name: Install CMake
+        run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+
+      - name: Install Visual Studio 2022 Build Tools
+        uses: microsoft/setup-msbuild@v1
+        with:
+          vs-version: '2022'
+
+      - name: Build all plugins and installer
+        shell: cmd
+        run: |
+          cd "UNCERTAIN-VST"
+          call BUILD-ALL.bat
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: uncertain-vst-suite-setup
+          path: |
+            UNCERTAIN-VST\Installer\UNCERTAIN-VST-Suite-Setup.exe
