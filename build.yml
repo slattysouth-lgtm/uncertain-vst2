@@ -1,0 +1,114 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-win:
+    runs-on: windows-latest
+
+    steps:
+      - name: Recuperer le projet
+        uses: actions/checkout@v4
+
+      - name: Configurer (CMake) + capture log
+        shell: pwsh
+        run: |
+          cmake -B build -A x64 -DCMAKE_BUILD_TYPE=Release 2>&1 | Tee-Object -FilePath configure-log.txt
+          if ($LASTEXITCODE -ne 0) { Write-Host "=== CMAKE CONFIGURE A ECHOUE ===" ; exit 1 }
+
+      - name: Compiler en Release + capture log
+        shell: pwsh
+        run: |
+          cmake --build build --config Release 2>&1 | Tee-Object -FilePath compile-log.txt
+          if ($LASTEXITCODE -ne 0) { Write-Host "=== COMPILATION A ECHOUE ===" ; exit 1 }
+
+      - name: Construire l'installateur (Inno Setup)
+        if: success()
+        shell: pwsh
+        run: |
+          # 1) Trouver le VST3 tout seul (peu importe le chemin exact)
+          $vst3 = Get-ChildItem build -Recurse -Directory -Filter *.vst3 -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $vst3) {
+            Write-Host "=== AUCUN .vst3 TROUVE ==="
+            Get-ChildItem build -Recurse -Directory | Select-Object FullName | Out-File arbo.txt
+            Get-Content arbo.txt
+            exit 1
+          }
+          Write-Host ("VST3 trouve : " + $vst3.FullName)
+
+          # 2) Trouver le standalone (optionnel)
+          $sa = Get-ChildItem build -Recurse -File -Filter *.exe -ErrorAction SilentlyContinue | Where-Object { $_.FullName -match 'Standalone' } | Select-Object -First 1
+          if ($sa) { Write-Host ("Standalone trouve : " + $sa.FullName) } else { Write-Host "Standalone: aucun (on continue sans)" }
+
+          # 3) Ecrire le script Inno Setup avec les chemins reels
+          $iss = New-Object System.Collections.ArrayList
+          [void]$iss.Add('[Setup]')
+          [void]$iss.Add('AppName=Room Corrector')
+          [void]$iss.Add('AppVersion=1.0.0')
+          [void]$iss.Add('AppPublisher=Uncertain')
+          [void]$iss.Add('DefaultDirName={commonpf}\Uncertain\Room Corrector')
+          [void]$iss.Add('DisableProgramGroupPage=yes')
+          [void]$iss.Add('OutputBaseFilename=RoomCorrector-Setup')
+          [void]$iss.Add('ArchitecturesInstallIn64BitMode=x64')
+          [void]$iss.Add('Compression=lzma2')
+          [void]$iss.Add('SolidCompression=yes')
+          [void]$iss.Add('PrivilegesRequired=admin')
+          [void]$iss.Add('WizardStyle=modern')
+          [void]$iss.Add('UninstallDisplayName=Room Corrector by Uncertain')
+          [void]$iss.Add('')
+          [void]$iss.Add('[Files]')
+          [void]$iss.Add('Source: "' + $vst3.FullName + '\*"; DestDir: "{commoncf64}\VST3\' + $vst3.Name + '"; Flags: recursesubdirs createallsubdirs ignoreversion')
+          if ($sa) { [void]$iss.Add('Source: "' + $sa.FullName + '"; DestDir: "{app}"; Flags: ignoreversion') }
+          if ($sa) {
+            [void]$iss.Add('')
+            [void]$iss.Add('[Icons]')
+            [void]$iss.Add('Name: "{autoprograms}\Room Corrector"; Filename: "{app}\' + $sa.Name + '"')
+          }
+          Set-Content -Path installer.iss -Value $iss -Encoding UTF8
+          Write-Host "--- installer.iss ---"; Get-Content installer.iss
+
+          # 4) Installer Inno Setup et localiser ISCC.exe
+          choco install innosetup -y --no-progress
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            $found = Get-ChildItem "C:\Program Files*" -Recurse -Filter ISCC.exe -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($found) { $iscc = $found.FullName } else { Write-Host "=== ISCC.exe INTROUVABLE ==="; exit 1 }
+          }
+          Write-Host ("ISCC : " + $iscc)
+
+          # 5) Compiler l'installateur
+          & "$iscc" installer.iss 2>&1 | Tee-Object -FilePath installer-log.txt
+          if ($LASTEXITCODE -ne 0) { Write-Host "=== INSTALLATEUR A ECHOUE ===" ; exit 1 }
+          Write-Host "=== INSTALLATEUR OK ==="
+          Get-ChildItem Output
+
+      - name: Publier les logs (TOUJOURS, meme si echec)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: BUILD-LOGS
+          path: |
+            configure-log.txt
+            compile-log.txt
+            installer-log.txt
+            arbo.txt
+          if-no-files-found: warn
+
+      - name: Publier le VST3 + le Standalone (.exe)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RoomCorrector-Windows
+          path: build/RoomCorrector_artefacts/Release/
+          if-no-files-found: warn
+
+      - name: Publier l'installateur (Setup.exe)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RoomCorrector-Installer
+          path: Output/RoomCorrector-Setup.exe
+          if-no-files-found: warn
